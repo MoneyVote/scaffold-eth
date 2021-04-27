@@ -20,7 +20,7 @@ contract TransferEther {
         emit Received(msg.sender, msg.value);
     }
 
-    fallback () exnternal payable {
-        
+    fallback () external payable {
+
     }
 }
