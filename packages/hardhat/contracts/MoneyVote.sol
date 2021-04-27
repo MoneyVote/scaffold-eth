@@ -1,10 +1,5 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
-// We have to specify what version of compiler this code will compile with
-
-import "hardhat/console.sol";
-
-
-//  MODIFY this contract to ensure that a voter can only vote once.
 
 contract MoneyVote {
     /* mapping field below is equivalent to an associative array or hash.
@@ -26,7 +21,7 @@ contract MoneyVote {
     deploy the contract to the blockchain. When we deploy the contract,
     we will pass an array of candidates who will be contesting in the election
     */
-    constructor(bytes32[] memory candidateNames) public {
+    constructor(bytes32[] memory candidateNames) {
         //console.log("in Voting Dapp constructor");
         candidateList = candidateNames;
     }
