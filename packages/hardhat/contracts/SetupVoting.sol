@@ -13,7 +13,8 @@ contract SetupVoting is Ownable {
     }
 
     function setEndTime(uint _endTime) public onlyOwner {
-        endTime = _endTime;
+        //get current block time and add the end time
+        endTime = block.timestamp + _endTime;
     }
 
     function getVoteValue() public view returns (uint8) {

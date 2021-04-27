@@ -5,7 +5,7 @@ import "hardhat/console.sol";
 
 import "./SetupVoting.sol";
 
-contract MoneyVote is SetupVoting{
+contract MoneyVote is SetupVoting {
     /* mapping field below is equivalent to an associative array or hash.
     The key of the mapping is candidate name stored as type bytes32 and value is
     an unsigned integer to store the vote count
@@ -23,6 +23,8 @@ contract MoneyVote is SetupVoting{
 
     bytes32[] public candidateList;
 
+    bool ended;
+
     /* This is the constructor which will be called once when you
     deploy the contract to the blockchain. When we deploy the contract,
     we will pass an array of candidates who will be contesting in the election
@@ -36,11 +38,11 @@ contract MoneyVote is SetupVoting{
 
     // This function returns the total votes a candidate has received so far
     function totalVotesFor(bytes32 _candidate) view public returns (uint256) {
-        require(validCandidate(_candidate));
+        require(validCandidate(_candidate), "Not a valid candidate.");
         return votesReceived[_candidate].length;
     }
 
-    function findWinner() public returns (bytes32) {
+    function findWinner() view public returns (bytes32) {
         uint _maxVotes = 0;
         bytes32 _winner;
         for (uint i = 0; i < candidateList.length; i++) {
@@ -57,8 +59,9 @@ contract MoneyVote is SetupVoting{
     // This function increments the vote count for the specified candidate. This
     // is equivalent to casting a vote
     function voteForCandidate(bytes32 _candidate) public {
-        require(validCandidate(_candidate));
-        require(hasVoted[msg.sender] == false);
+        require(block.timestamp <= endTime, "Voting ended.");
+        require(validCandidate(_candidate), "Not a valid candidate.");
+        require(hasVoted[msg.sender] == false, "Already voted.");
         votesReceived[_candidate].push(msg.sender);
         hasVoted[msg.sender] = true;
     }
@@ -70,5 +73,11 @@ contract MoneyVote is SetupVoting{
             }
         }
         return false;
+    }
+
+    function voteEnd() public {
+        require(block.timestamp >= endTime, "Voting not yet ended.");
+        require(!ended, "voting has been ended.");
+        ended = true;
     }
 }
