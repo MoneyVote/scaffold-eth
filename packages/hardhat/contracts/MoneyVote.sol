@@ -37,8 +37,8 @@ contract MoneyVote {
 
     // This function returns the total votes a candidate has received so far
     function totalVotesFor(bytes32 _candidate) view public returns (uint256) {
-        require(validCandidate(candidate));
-        return votesReceived[candidate];
+        require(validCandidate(_candidate));
+        return votesReceived[_candidate];
     }
 
     // This function increments the vote count for the specified candidate. This
