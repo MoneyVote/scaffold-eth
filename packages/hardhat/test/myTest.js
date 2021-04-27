@@ -7,20 +7,12 @@ use(solidity);
 describe("My Dapp", function () {
   let myContract;
 
-  describe("YourContract", function () {
-    it("Should deploy YourContract", async function () {
-      const YourContract = await ethers.getContractFactory("YourContract");
+  describe("MoneyVote", function () {
+    it("Should deploy MoneyVote", async function () {
+      const YourContract = await ethers.getContractFactory("MoneyVote");
 
-      myContract = await YourContract.deploy();
-    });
-
-    describe("setPurpose()", function () {
-      it("Should be able to set a new purpose", async function () {
-        const newPurpose = "Test Purpose";
-
-        await myContract.setPurpose(newPurpose);
-        expect(await myContract.purpose()).to.equal(newPurpose);
-      });
+      myContract = await YourContract.deploy([ethers.utils.formatBytes32String('Sean Connery'),
+        ethers.utils.formatBytes32String('Roger Moore'), ethers.utils.formatBytes32String('Daniel Craig')], 20, 1);
     });
   });
 });
