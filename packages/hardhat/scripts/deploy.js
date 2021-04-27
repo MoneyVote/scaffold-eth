@@ -16,8 +16,12 @@ const main = async () => {
 
   // const exampleToken = await deploy("ExampleToken")
   // const examplePriceOracle = await deploy("ExamplePriceOracle")
-  let args = [ethers.utils.formatBytes32String('Sean Connery'), ethers.utils.formatBytes32String('Roger Moore'), ethers.utils.formatBytes32String('Daniel Craig')];
-  const moneyVote = await deploy("MoneyVote", args);
+  let candidates = [ethers.utils.formatBytes32String('Sean Connery'), ethers.utils.formatBytes32String('Roger Moore'), ethers.utils.formatBytes32String('Daniel Craig')];
+
+  const moneyVote = await deploy("MoneyVote", [candidates, 20, 1]);
+  const transferEther = await deploy("TransferEther");
+  const setupVoting = await deploy("SetupVoting");
+  const ownable = await deploy("Ownable");
 
   /*
   //If you want to send value to an address from the deployer
@@ -73,11 +77,10 @@ const main = async () => {
 const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) => {
   console.log(` 🛰  Deploying: ${contractName}`);
 
-
-  const contractArgs = [ethers.utils.formatBytes32String('Sean Connery'), ethers.utils.formatBytes32String('Roger Moore'), ethers.utils.formatBytes32String('Daniel Craig')];
+  const contractArgs = _args || [];
   const contractArtifacts = await ethers.getContractFactory(contractName,{libraries: libraries});
-  const deployed = await contractArtifacts.deploy(contractArgs, overrides);
-  //const encoded = abiEncodeArgs(deployed, contractArgs);
+  const deployed = await contractArtifacts.deploy(...contractArgs, overrides);
+  const encoded = abiEncodeArgs(deployed, contractArgs);
   fs.writeFileSync(`artifacts/${contractName}.address`, deployed.address);
 
   let extraGasInfo = ""
@@ -102,8 +105,8 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
     address: deployed.address
   });
 
-  //if (!encoded || encoded.length <= 2) return deployed;
-  //fs.writeFileSync(`artifacts/${contractName}.args`, encoded.slice(2));
+  if (!encoded || encoded.length <= 2) return deployed;
+  fs.writeFileSync(`artifacts/${contractName}.args`, encoded.slice(2));
 
   return deployed;
 };
