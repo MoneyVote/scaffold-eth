@@ -13,7 +13,7 @@ contract MoneyVote is SetupVoting{
 
     //SetupVoting public setupVoting;
 
-    mapping (bytes32 => uint256) public votesReceived;
+    mapping (bytes32 => address[]) public votesReceived;
 
     mapping (address => bool) public hasVoted;
 
@@ -37,7 +37,7 @@ contract MoneyVote is SetupVoting{
     // This function returns the total votes a candidate has received so far
     function totalVotesFor(bytes32 _candidate) view public returns (uint256) {
         require(validCandidate(_candidate));
-        return votesReceived[_candidate];
+        return votesReceived[_candidate].length();
     }
 
     // This function increments the vote count for the specified candidate. This
@@ -45,7 +45,7 @@ contract MoneyVote is SetupVoting{
     function voteForCandidate(bytes32 _candidate) public {
         require(validCandidate(_candidate));
         require(hasVoted[msg.sender] == false);
-        votesReceived[_candidate] += 1;
+        votesReceived[_candidate].push(msg.sender);
         hasVoted[msg.sender] = true;
     }
 

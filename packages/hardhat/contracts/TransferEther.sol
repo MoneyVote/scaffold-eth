@@ -16,8 +16,11 @@ contract TransferEther is SetupVoting {
        payable( msg.sender).transfer(_amount);
     }
 
-    function calculateWinnings() public {
-        
+    function calculateWinnings(uint _totalVotes) public view returns(uint){
+        uint _contractBal = address(this).balance;
+        uint _individualWinnings = _contractBal/_totalVotes;
+
+        return _individualWinnings;
     }
 
     event Received(address, uint);
