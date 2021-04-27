@@ -5,8 +5,8 @@ import "./ownable.sol";
 
 contract SetupVoting is Ownable{
 
-    uint8 public voteValue = 0;
-    uint public endTime = 0;
+    uint8 public voteValue;
+    uint public endTime;
 
     function setVoteValue(uint8 _value) public onlyOwner {
         voteValue = _value;
