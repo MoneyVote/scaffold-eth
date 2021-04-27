@@ -9,14 +9,19 @@ const main = async () => {
 
   console.log("\n\n 📡 Deploying...\n");
 
+<<<<<<< HEAD
   const yourContract = await deploy("MoneyVote") // <-- add in constructor args like line 19 vvvv
+=======
+  //const yourContract = await deploy("MoneyVote") // <-- add in constructor args like line 19 vvvv
+>>>>>>> d27d824b3789d9e62c83904edc800c706a47e98c
 
   //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
   //const secondContract = await deploy("SecondContract")
 
   // const exampleToken = await deploy("ExampleToken")
   // const examplePriceOracle = await deploy("ExamplePriceOracle")
-  // const smartContractWallet = await deploy("SmartContractWallet",[exampleToken.address,examplePriceOracle.address])
+  let args = [ethers.utils.formatBytes32String('Sean Connery'), ethers.utils.formatBytes32String('Roger Moore'), ethers.utils.formatBytes32String('Daniel Craig')];
+  const moneyVote = await deploy("MoneyVote", args);
 
   /*
   //If you want to send value to an address from the deployer
@@ -71,6 +76,7 @@ const main = async () => {
 
 const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) => {
   console.log(` 🛰  Deploying: ${contractName}`);
+
 
   const contractArgs = [ethers.utils.formatBytes32String('Sean Connery'), ethers.utils.formatBytes32String('Roger Moore'), ethers.utils.formatBytes32String('Daniel Craig')];
   const contractArtifacts = await ethers.getContractFactory(contractName,{libraries: libraries});
