@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-contract TransferEther {
+import "./SetupVoting.sol";
+
+contract TransferEther is SetupVoting{
     mapping (address => uint256) userBalance;
 
-    function buyIn(address _user) public {
-
+    function buyIn() public payable {
+        require(msg.value == super.getVoteValue());
     }
 
     function withdrawBalance() public payable {

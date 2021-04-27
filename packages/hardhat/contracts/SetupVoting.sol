@@ -16,4 +16,8 @@ contract SetupVoting is Ownable {
         endTime = _endTime;
     }
 
+    function getVoteValue() public view returns (uint8) {
+        return voteValue;
+    }
+
 }
