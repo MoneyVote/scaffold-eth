@@ -5,6 +5,8 @@ import "hardhat/console.sol";
 
 import "./SetupVoting.sol";
 
+import "./TransferEther.sol";
+
 contract MoneyVote is SetupVoting{
     /* mapping field below is equivalent to an associative array or hash.
     The key of the mapping is candidate name stored as type bytes32 and value is
@@ -13,15 +15,26 @@ contract MoneyVote is SetupVoting{
 
     //SetupVoting public setupVoting;
 
-    mapping (bytes32 => address[]) public votesReceived;
+    struct Voter {
+        bool voted;
+        bool withdrawn;
+        bytes32 votedFor;
+    }
 
-    mapping (address => bool) public hasVoted;
+    struct Candidate {
+        bytes32 name;
+        uint totalVotes;
+    }
+
+    uint winner;
+
+    mapping (address => Voter) public voters;
 
     /* Solidity doesn't let you pass in an array of strings in the constructor (yet).
     We will use an array of bytes32 instead to store the list of candidates
     */
 
-    bytes32[] public candidateList;
+    Candidate[] public candidateList;
 
     /* This is the constructor which will be called once when you
     deploy the contract to the blockchain. When we deploy the contract,
@@ -29,43 +42,47 @@ contract MoneyVote is SetupVoting{
     */
     constructor(bytes32[] memory _candidateNames, uint _endTime, uint8 _buyInValue) {
         //console.log("in Voting Dapp constructor");
-        candidateList = _candidateNames;
+        for (uint i = 0; i < _candidateNames.length; i++) {
+            candidateList.push(Candidate({
+                name: _candidateNames[i],
+                totalVotes: 0
+            }));
+        }
         super.setVoteValue(_buyInValue);
         super.setEndTime(_endTime);
     }
 
-    // This function returns the total votes a candidate has received so far
-    function totalVotesFor(bytes32 _candidate) view public returns (uint256) {
-        require(validCandidate(_candidate));
-        return votesReceived[_candidate].length;
-    }
-
-    function findWinner() public returns (bytes32) {
+    function findWinner() public {
         uint _maxVotes = 0;
-        bytes32 _winner;
+        uint _winner;
         for (uint i = 0; i < candidateList.length; i++) {
-            uint _currentVotes = votesReceived[candidateList[i]].length;
+            uint _currentVotes = candidateList[i].totalVotes;
             if (_currentVotes > _maxVotes) {
                 _maxVotes = _currentVotes;
-                _winner = candidateList[i];
+                _winner = i;
             }
         }
 
-        return _winner;
+        winner =  _winner;
     }
 
     // This function increments the vote count for the specified candidate. This
     // is equivalent to casting a vote
-    function voteForCandidate(bytes32 _candidate) public {
-        require(validCandidate(_candidate));
-        require(hasVoted[msg.sender] == false);
-        votesReceived[_candidate].push(msg.sender);
-        hasVoted[msg.sender] = true;
+    function voteForCandidate(uint _candidate) public {
+        require(validCandidate(candidateList[_candidate].name));
+        require(voters[msg.sender].voted == false);
+        TransferEther.buyIn();
+        candidateList[_candidate].totalVotes += 1;
+        voters[msg.sender] = Voter({
+            voted: true,
+            withdrawn: false,
+            votedFor: candidateList[_candidate].name
+        });
     }
 
     function validCandidate(bytes32 _candidate) view public returns (bool) {
         for(uint i = 0; i < candidateList.length; i++) {
-            if (candidateList[i] == _candidate) {
+            if (candidateList[i].name == _candidate) {
                 return true;
             }
         }
