@@ -16,6 +16,10 @@ contract TransferEther is SetupVoting{
        payable( msg.sender).transfer(_amount);
     }
 
+    function calculateWinnings() public {
+        
+    }
+
     event Received(address, uint);
 
     receive () external payable {
