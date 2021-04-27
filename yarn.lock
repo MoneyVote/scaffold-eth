@@ -8838,13 +8838,6 @@
     "json-rpc-random-id" "^1.0.0"
     "xtend" "^4.0.1"
 
-"eth-revert-reason@^1.0.3":
-  "integrity" "sha512-HD4pB+s2Jr4cwdywbcTcdLXPwxOZNrnH/luVuploeqEBlCNvFZQGzOwfgOy8WTSTqqEvjZOrIt+cNPt5Zl4pXw=="
-  "resolved" "https://registry.npmjs.org/eth-revert-reason/-/eth-revert-reason-1.0.3.tgz"
-  "version" "1.0.3"
-  dependencies:
-    "ethers" "^4.0.46"
-
 "eth-rpc-errors@^3.0.0":
   "integrity" "sha512-iPPNHPrLwUlR9xCSYm7HHQjWBasor3+KZfRvwEWxMz3ca0yqnlBeJrnyphkGIXZ4J7AMAaOLmwy4AWhnxOiLxg=="
   "resolved" "https://registry.npmjs.org/eth-rpc-errors/-/eth-rpc-errors-3.0.0.tgz"

@@ -59,8 +59,5 @@
       "**/hardhat",
       "**/hardhat/**"
     ]
-  },
-  "dependencies": {
-    "eth-revert-reason": "^1.0.3"
   }
 }
