@@ -30,9 +30,8 @@ contract MoneyVote {
     constructor(bytes32[] memory _candidateNames, uint _endTime, uint8 _buyInValue) {
         //console.log("in Voting Dapp constructor");
         candidateList = _candidateNames;
-        setupVoting.setVoteValue(_buyInValue);
-        setupVoting.setEndTime(_endTime);
-
+        //setupVoting.setVoteValue(_buyInValue);
+        //setupVoting.setEndTime(_endTime);
     }
 
     // This function returns the total votes a candidate has received so far

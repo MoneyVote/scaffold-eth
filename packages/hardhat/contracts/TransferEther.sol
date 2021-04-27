@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 import "./SetupVoting.sol";
 
-contract TransferEther is SetupVoting{
+contract TransferEther is SetupVoting {
     mapping (address => uint256) userBalance;
 
     function buyIn() public payable {
