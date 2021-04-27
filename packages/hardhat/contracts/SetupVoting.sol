@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 import "./ownable.sol";
 
-contract SetupVoting is Ownable{
+contract SetupVoting is Ownable {
 
     uint8 public voteValue;
     uint public endTime;
