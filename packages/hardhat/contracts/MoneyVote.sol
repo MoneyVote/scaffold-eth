@@ -5,13 +5,13 @@ import "hardhat/console.sol";
 
 import "./SetupVoting.sol";
 
-contract MoneyVote {
+contract MoneyVote is SetupVoting{
     /* mapping field below is equivalent to an associative array or hash.
     The key of the mapping is candidate name stored as type bytes32 and value is
     an unsigned integer to store the vote count
     */
 
-    SetupVoting public setupVoting;
+    //SetupVoting public setupVoting;
 
     mapping (bytes32 => uint256) public votesReceived;
 
@@ -30,8 +30,8 @@ contract MoneyVote {
     constructor(bytes32[] memory _candidateNames, uint _endTime, uint8 _buyInValue) {
         //console.log("in Voting Dapp constructor");
         candidateList = _candidateNames;
-        //setupVoting.setVoteValue(_buyInValue);
-        //setupVoting.setEndTime(_endTime);
+        super.setVoteValue(_buyInValue);
+        super.setEndTime(_endTime);
     }
 
     // This function returns the total votes a candidate has received so far
