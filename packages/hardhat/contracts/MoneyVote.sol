@@ -27,7 +27,7 @@ contract MoneyVote {
     deploy the contract to the blockchain. When we deploy the contract,
     we will pass an array of candidates who will be contesting in the election
     */
-    constructor(bytes32[] memory _candidateNames, uint _endTime, unit8 _buyInValue) {
+    constructor(bytes32[] memory _candidateNames, uint _endTime, uint8 _buyInValue) {
         //console.log("in Voting Dapp constructor");
         candidateList = _candidateNames;
         setupVoting.setVoteValue(_buyInValue);
