@@ -9,11 +9,7 @@ const main = async () => {
 
   console.log("\n\n 📡 Deploying...\n");
 
-<<<<<<< HEAD
-  const yourContract = await deploy("MoneyVote") // <-- add in constructor args like line 19 vvvv
-=======
   //const yourContract = await deploy("MoneyVote") // <-- add in constructor args like line 19 vvvv
->>>>>>> d27d824b3789d9e62c83904edc800c706a47e98c
 
   //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
   //const secondContract = await deploy("SecondContract")

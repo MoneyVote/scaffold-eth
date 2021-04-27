@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+import "hardhat/console.sol";
+
 contract MoneyVote {
     /* mapping field below is equivalent to an associative array or hash.
     The key of the mapping is candidate name stored as type bytes32 and value is
