@@ -37,7 +37,21 @@ contract MoneyVote is SetupVoting{
     // This function returns the total votes a candidate has received so far
     function totalVotesFor(bytes32 _candidate) view public returns (uint256) {
         require(validCandidate(_candidate));
-        return votesReceived[_candidate].length();
+        return votesReceived[_candidate].length;
+    }
+
+    function findWinner() public returns (bytes32) {
+        uint _maxVotes = 0;
+        bytes32 _winner;
+        for (uint i = 0; i < candidateList.length; i++) {
+            uint _currentVotes = votesReceived[candidateList[i]].length;
+            if (_currentVotes > _maxVotes) {
+                _maxVotes = _currentVotes;
+                _winner = candidateList[i];
+            }
+        }
+
+        return _winner;
     }
 
     // This function increments the vote count for the specified candidate. This
