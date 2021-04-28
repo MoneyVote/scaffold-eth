@@ -16,14 +16,14 @@ contract TransferEther {
     }
 
     function withdrawBalance() public payable {
-        require(moneyVote.voters(msg.sender).withdrawn == false);
-        require(moneyVote.voters(msg.sender).votedFor == moneyVote.candidateList(moneyVote.winner).name);
-        moneyVote.voters(msg.sender).withdrawn = true;
+        require(moneyVote.getWithdrawn(msg.sender) == false);
+        require(moneyVote.getVotedFor(msg.sender) == moneyVote.getWinnerName());
+        moneyVote.setWithdrawnTrue(msg.sender);
         payable(msg.sender).transfer(amount);
     }
 
     function calculateWinnings() public{
-        uint _votes = moneyVote.candidateList[moneyVote.winner].totalVotes;
+        uint _votes = moneyVote.getWinnerVotes();
         uint _contractBal = address(this).balance;
         amount = _contractBal/_votes;
     }

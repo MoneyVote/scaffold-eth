@@ -14,7 +14,7 @@ contract MoneyVote is SetupVoting{
     an unsigned integer to store the vote count
     */
 
-    //SetupVoting public setupVoting;
+    TransferEther public transferEther;
 
     struct Voter {
         bool voted;
@@ -55,6 +55,26 @@ contract MoneyVote is SetupVoting{
         super.setEndTime(_endTime);
     }
 
+    function getWithdrawn(address _user) public view returns(bool){
+        return voters[_user].withdrawn;
+    }
+
+    function setWithdrawnTrue(address _user) public {
+        voters[_user].withdrawn = true;
+    }
+
+    function getVotedFor(address _user) public view returns(bytes32){
+        return voters[_user].votedFor;
+    }
+
+    function getWinnerName() public view returns(bytes32){
+        return candidateList[winner].name;
+    }
+
+    function getWinnerVotes() public view returns(uint){
+        return candidateList[winner].totalVotes;
+    }
+
     function findWinner() public {
         uint _maxVotes = 0;
         uint _winner;
@@ -75,13 +95,14 @@ contract MoneyVote is SetupVoting{
         require(block.timestamp <= endTime, "Voting ended.");
         require(validCandidate(candidateList[_candidate].name));
         require(voters[msg.sender].voted == false);
-        TransferEther.buyIn();
+        transferEther.buyIn();
         candidateList[_candidate].totalVotes += 1;
         voters[msg.sender] = Voter({
             voted: true,
             withdrawn: false,
             votedFor: candidateList[_candidate].name
         });
+    }
 
     function validCandidate(bytes32 _candidate) view public returns (bool) {
         for(uint i = 0; i < candidateList.length; i++) {
