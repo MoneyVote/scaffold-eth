@@ -76,6 +76,7 @@ contract MoneyVote is SetupVoting{
     }
 
     function findWinner() public {
+        require(block.timestamp > endTime, "Voting still in progress.");
         uint _maxVotes = 0;
         uint _winner;
         for (uint i = 0; i < candidateList.length; i++) {
@@ -115,7 +116,7 @@ contract MoneyVote is SetupVoting{
 
     function voteEnd() public {
         require(block.timestamp >= endTime, "Voting not yet ended.");
-        require(!ended, "voting has been ended.");
+        require(!ended, "Voting has been ended.");
         ended = true;
     }
 }

@@ -16,13 +16,15 @@ contract TransferEther {
     }
 
     function withdrawBalance() public payable {
+        require(block.timestamp > setupVoting.endTime(), "Voting still in progress.");
         require(moneyVote.getWithdrawn(msg.sender) == false);
         require(moneyVote.getVotedFor(msg.sender) == moneyVote.getWinnerName());
         moneyVote.setWithdrawnTrue(msg.sender);
         payable(msg.sender).transfer(amount);
     }
 
-    function calculateWinnings() public{
+    function calculateWinnings() public {
+        require(block.timestamp > setupVoting.endTime(), "Voting still in progress.");
         uint _votes = moneyVote.getWinnerVotes();
         uint _contractBal = address(this).balance;
         amount = _contractBal/_votes;
