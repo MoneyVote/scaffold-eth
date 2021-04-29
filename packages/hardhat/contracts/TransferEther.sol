@@ -12,13 +12,13 @@ contract TransferEther {
     uint amount;
 
     function buyIn() public payable {
-        require(msg.value == setupVoting.getVoteValue());
+        require(msg.value == setupVoting.getVoteValue(), "Cannot buy in.");
     }
 
     function withdrawBalance() public payable {
         require(block.timestamp > setupVoting.endTime(), "Voting still in progress.");
-        require(moneyVote.getWithdrawn(msg.sender) == false);
-        require(moneyVote.getVotedFor(msg.sender) == moneyVote.getWinnerName());
+        require(moneyVote.getWithdrawn(msg.sender) == false, "User already withdrew.");
+        require(moneyVote.getVotedFor(msg.sender) == moneyVote.getWinnerName(), "User did not vote for winner.");
         moneyVote.setWithdrawnTrue(msg.sender);
         payable(msg.sender).transfer(amount);
     }

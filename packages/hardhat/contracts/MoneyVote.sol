@@ -94,8 +94,8 @@ contract MoneyVote is SetupVoting{
     // is equivalent to casting a vote
     function voteForCandidate(uint _candidate) public {
         require(block.timestamp <= endTime, "Voting ended.");
-        require(validCandidate(candidateList[_candidate].name));
-        require(voters[msg.sender].voted == false);
+        require(validCandidate(candidateList[_candidate].name), "Candidate not valid.");
+        require(voters[msg.sender].voted == false, "User already voted.");
         transferEther.buyIn();
         candidateList[_candidate].totalVotes += 1;
         voters[msg.sender] = Voter({
