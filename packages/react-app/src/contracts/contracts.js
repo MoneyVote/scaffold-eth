@@ -1,1 +1,1 @@
-module.exports = ["MoneyVote","Ownable","SetupVoting","TransferEther"];
+module.exports = ["MoneyVote","Ownable","SetupVoting"];

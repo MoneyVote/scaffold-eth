@@ -18,8 +18,7 @@ const main = async () => {
   // const examplePriceOracle = await deploy("ExamplePriceOracle")
   let candidates = [ethers.utils.formatBytes32String('Sean Connery'), ethers.utils.formatBytes32String('Roger Moore'), ethers.utils.formatBytes32String('Daniel Craig')];
 
-  const moneyVote = await deploy("MoneyVote", [candidates, 60, 1]);
-  const transferEther = await deploy("TransferEther");
+  const moneyVote = await deploy("MoneyVote", [candidates, 600, 1]);
   const setupVoting = await deploy("SetupVoting");
   const ownable = await deploy("Ownable");
 

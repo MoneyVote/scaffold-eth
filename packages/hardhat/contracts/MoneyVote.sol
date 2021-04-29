@@ -5,16 +5,12 @@ import "hardhat/console.sol";
 
 import "./SetupVoting.sol";
 
-import "./TransferEther.sol";
-
 contract MoneyVote is SetupVoting{
 
     /* mapping field below is equivalent to an associative array or hash.
     The key of the mapping is candidate name stored as type bytes32 and value is
     an unsigned integer to store the vote count
     */
-
-    TransferEther public transferEther;
 
     struct Voter {
         bool voted;
@@ -28,6 +24,8 @@ contract MoneyVote is SetupVoting{
     }
 
     uint winner;
+
+    uint amount;
 
     mapping (address => Voter) public voters;
 
@@ -96,7 +94,7 @@ contract MoneyVote is SetupVoting{
         require(block.timestamp <= endTime, "Voting ended.");
         require(validCandidate(candidateList[_candidate].name), "Candidate not valid.");
         require(voters[msg.sender].voted == false, "User already voted.");
-        transferEther.buyIn();
+        buyIn();
         candidateList[_candidate].totalVotes += 1;
         voters[msg.sender] = Voter({
             voted: true,
@@ -118,5 +116,35 @@ contract MoneyVote is SetupVoting{
         require(block.timestamp >= endTime, "Voting not yet ended.");
         require(!ended, "Voting has been ended.");
         ended = true;
+    }
+
+    function buyIn() public payable {
+        require(msg.value == super.getVoteValue(), "Cannot buy in.");
+        
+    }
+
+    function withdrawBalance() public payable {
+        require(block.timestamp > endTime, "Voting still in progress.");
+        require(getWithdrawn(msg.sender) == false, "User already withdrew.");
+        require(getVotedFor(msg.sender) == getWinnerName(), "User did not vote for winner.");
+        setWithdrawnTrue(msg.sender);
+        payable(msg.sender).transfer(amount);
+    }
+
+    function calculateWinnings() public {
+        require(block.timestamp > endTime, "Voting still in progress.");
+        uint _votes = getWinnerVotes();
+        uint _contractBal = address(this).balance;
+        amount = _contractBal/_votes;
+    }
+
+    event Received(address, uint);
+
+    receive () external payable {
+        emit Received(msg.sender, msg.value);
+    }
+
+    fallback () external payable {
+
     }
 }
