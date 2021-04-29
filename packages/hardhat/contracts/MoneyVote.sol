@@ -35,9 +35,7 @@ contract MoneyVote is SetupVoting{
     We will use an array of bytes32 instead to store the list of candidates
     */
 
-    Candidate[] public candidateList;
-
-    bool ended;
+    Candidate[] public candidateList;S
 
     /* This is the constructor which will be called once when you
     deploy the contract to the blockchain. When we deploy the contract,
@@ -112,11 +110,5 @@ contract MoneyVote is SetupVoting{
             }
         }
         return false;
-    }
-
-    function voteEnd() public {
-        require(block.timestamp >= endTime, "Voting not yet ended.");
-        require(!ended, "Voting has been ended.");
-        ended = true;
     }
 }
