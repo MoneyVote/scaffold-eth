@@ -88,7 +88,7 @@ contract MoneyVote is SetupVoting{
 
     // This function increments the vote count for the specified candidate. This
     // is equivalent to casting a vote
-    function voteForCandidate(uint _candidate) public {
+    function voteForCandidate(uint _candidate) public payable{
         require(block.timestamp <= endTime, "Voting ended.");
         require(validCandidate(candidateList[_candidate].name), "Candidate not valid.");
         require(voters[msg.sender].voted == false, "User already voted.");
@@ -108,12 +108,6 @@ contract MoneyVote is SetupVoting{
             }
         }
         return false;
-    }
-
-    function voteEnd() public {
-        require(block.timestamp >= endTime, "Voting not yet ended.");
-        require(!ended, "Voting has been ended.");
-        ended = true;
     }
 
     function buyIn() public payable {
