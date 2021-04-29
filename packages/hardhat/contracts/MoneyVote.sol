@@ -35,7 +35,7 @@ contract MoneyVote is SetupVoting{
     We will use an array of bytes32 instead to store the list of candidates
     */
 
-    Candidate[] public candidateList;S
+    Candidate[] public candidateList;
 
     /* This is the constructor which will be called once when you
     deploy the contract to the blockchain. When we deploy the contract,
