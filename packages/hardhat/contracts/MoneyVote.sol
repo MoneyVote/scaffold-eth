@@ -35,8 +35,6 @@ contract MoneyVote is SetupVoting{
 
     Candidate[] public candidateList;
 
-    bool ended;
-
     /* This is the constructor which will be called once when you
     deploy the contract to the blockchain. When we deploy the contract,
     we will pass an array of candidates who will be contesting in the election
